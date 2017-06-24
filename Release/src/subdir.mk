@@ -4,13 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/lin-dfu-prog.cpp 
+../src/tiva-dfu-prog-linux.cpp 
 
 OBJS += \
-./src/lin-dfu-prog.o 
+./src/tiva-dfu-prog-linux.o 
 
 CPP_DEPS += \
-./src/lin-dfu-prog.d 
+./src/tiva-dfu-prog-linux.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

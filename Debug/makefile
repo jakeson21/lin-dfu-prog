@@ -38,19 +38,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: lin-dfu-prog
+all: tiva-dfu-prog-linux
 
 # Tool invocations
-lin-dfu-prog: $(OBJS) $(USER_OBJS)
+tiva-dfu-prog-linux: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++  -o "lin-dfu-prog" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "tiva-dfu-prog-linux" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) lin-dfu-prog
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) tiva-dfu-prog-linux
 	-@echo ' '
 
 .PHONY: all clean dependents
