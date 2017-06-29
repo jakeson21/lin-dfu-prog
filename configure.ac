@@ -12,7 +12,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 # Checks for programs.
 AC_PROG_CXX
-AC_PROG_CC
+# AC_PROG_CC
 
 # Checks for libraries.
 # On FreeBSD the libusb-1.0 is called libusb and resides in system location

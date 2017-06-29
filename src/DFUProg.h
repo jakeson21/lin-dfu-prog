@@ -11,6 +11,8 @@
 #include <string>  /* String function definitions */
 #include <libusb-1.0/libusb.h>
 
+#include "dfu.h"
+
 namespace DFU
 {
 
@@ -22,6 +24,8 @@ public:
 
 	void setSerialPort(const std::string& inPortName) { mPortName = inPortName; }
 	int InitDFUMode();
+
+	int tiva_reset_device(struct dfu_if *dif);
 
 private:
 	bool configSerialPort(int fd);
