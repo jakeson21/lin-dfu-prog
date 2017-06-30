@@ -53,7 +53,7 @@ static void help(void)
 		"  -l --list\t\t\tList DFU capable devices and exit\n"
 		"  -p --port-name <port-name>\tConnect to COM port /dev/<port-name> to send device into DFU mode.\n"
 		"                            \tDefault is \"/dev/ttyACM0\"\n"
-		"  -D --download <file>\t\tWrite firmware from <file> into device. Not compatible with -r option.\n"
+		"  -f --download-file <file>\t\tWrite firmware from <file> into device. Not compatible with -r option.\n"
 		"  -r --reset-only\t\tOnly issues USB Reset. Not compatible with -D option.\n"
 		);
 	std::exit(EX_USAGE);
@@ -74,7 +74,7 @@ static struct option opts[] = {
 	{ "verbose", 	optional_argument, NULL, 'v' },
 	{ "list", 		optional_argument, NULL, 'l' },
 	{ "port-name",  optional_argument, NULL, 'p' },
-	{ "download", 	required_argument, NULL, 'D' },
+	{ "download-file", 	required_argument, NULL, 'D' },
 	{ "reset-only", optional_argument, NULL, 'r' },
 	{ NULL, 0, NULL, 0 }
 };
@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
 	while (1)
 	{
 		int c, option_index = 0;
-		c = getopt_long(argc, argv, "hVvlp:D:r", opts,
+		c = getopt_long(argc, argv, "hVvlp:f:r", opts,
 				&option_index);
 		if (c == -1)
 			break;
@@ -125,7 +125,7 @@ int main(int argc, char** argv) {
 				portName = optarg;
 				com_trigger = true;
 				break;
-			case 'D':
+			case 'f':
 				mode = MODE_DOWNLOAD;
 				file.name = optarg;
 				firmwareFileName = optarg;
@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
 
 	if ((reset_only && mode == MODE_DOWNLOAD) || (reset_only && mode == MODE_LIST))
 	{
-		std::cout << "Invalid combination of args : -r -D or -l\n";
+		std::cout << "Invalid combination of args : -r -f or -l\n";
 		help();
 		std::exit(1);
 	}
