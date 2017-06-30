@@ -182,7 +182,6 @@ int main(int argc, char** argv) {
 
 	if (mode == MODE_LIST)
 	{
-		probe_devices(ctx);
 		list_dfu_interfaces();
 		return(0);
 	}
@@ -195,7 +194,7 @@ int main(int argc, char** argv) {
 		{
 			std::this_thread::sleep_for(chrono::milliseconds(100));
 			timeout_ms -= 100;
-			std::cout << ".";
+			std::cout << "." << std::flush;
 			if (timeout_ms < 0) { break; }
 			probe_devices(ctx);
 		}
