@@ -40,7 +40,10 @@ int tiva_reset_device(struct dfu_if *dif)
 			printf("Error occured releasing interface [%d]\n", status);
 			return status;
 		}
-		printf("Interface released\n");
+		else
+		{
+			printf("Interface released\n");
+		}
 	}
 
 	return 0;

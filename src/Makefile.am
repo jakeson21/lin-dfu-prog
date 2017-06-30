@@ -18,5 +18,7 @@ tiva_dfu_prog_SOURCES = tiva-dfu-prog-linux.cpp \
 	quirks.cpp \
 	quirks.h \
 	lmdfu.cpp \
-	lmdfu.h
+	lmdfu.h \
+	bin2dfuwrap.cpp \
+	bin2dfuwrap.h
 	

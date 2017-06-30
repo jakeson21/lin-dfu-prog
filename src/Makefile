@@ -89,7 +89,9 @@ POST_UNINSTALL = :
 bin_PROGRAMS = tiva_dfu_prog$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
+	$(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -102,7 +104,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_tiva_dfu_prog_OBJECTS = tiva-dfu-prog-linux.$(OBJEXT) \
 	DFUProg.$(OBJEXT) dfu_load.$(OBJEXT) dfu_util.$(OBJEXT) \
 	dfu.$(OBJEXT) dfu_file.$(OBJEXT) quirks.$(OBJEXT) \
-	lmdfu.$(OBJEXT)
+	lmdfu.$(OBJEXT) bin2dfuwrap.$(OBJEXT)
 tiva_dfu_prog_OBJECTS = $(am_tiva_dfu_prog_OBJECTS)
 tiva_dfu_prog_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -186,9 +188,9 @@ CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2 -I/usr/include/libusb-1.0
 CPP = gcc -E
 CPPFLAGS = 
-CXX = g++
+CXX = g++ -std=gnu++11
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 
+CXXFLAGS = -g -O0 
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -198,6 +200,7 @@ ECHO_T =
 EGREP = /bin/grep -E
 EXEEXT = 
 GREP = /bin/grep
+HAVE_CXX11 = 1
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -289,7 +292,9 @@ tiva_dfu_prog_SOURCES = tiva-dfu-prog-linux.cpp \
 	quirks.cpp \
 	quirks.h \
 	lmdfu.cpp \
-	lmdfu.h
+	lmdfu.h \
+	bin2dfuwrap.cpp \
+	bin2dfuwrap.h
 
 all: all-am
 
@@ -378,6 +383,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/DFUProg.Po
+include ./$(DEPDIR)/bin2dfuwrap.Po
 include ./$(DEPDIR)/dfu.Po
 include ./$(DEPDIR)/dfu_file.Po
 include ./$(DEPDIR)/dfu_load.Po

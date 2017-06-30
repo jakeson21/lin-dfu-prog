@@ -82,21 +82,6 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="tiva-dfu-prog-linux.org.eclipse.linuxtools.cdt.autotools.core.projectType.919311853" name="GNU Autotools" projectType="org.eclipse.linuxtools.cdt.autotools.core.projectType"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.348275100;cdt.managedbuild.config.gnu.exe.release.348275100.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1438987394;cdt.managedbuild.tool.gnu.cpp.compiler.input.62237749">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1252281783;cdt.managedbuild.config.gnu.exe.debug.1252281783.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.2080819632;cdt.managedbuild.tool.gnu.cpp.compiler.input.537915097">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1252281783;cdt.managedbuild.config.gnu.exe.debug.1252281783.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.198704748;cdt.managedbuild.tool.gnu.c.compiler.input.1804401509">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.348275100;cdt.managedbuild.config.gnu.exe.release.348275100.;cdt.managedbuild.tool.gnu.c.compiler.exe.release.725909396;cdt.managedbuild.tool.gnu.c.compiler.input.974071409">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
@@ -107,4 +92,26 @@
 			<resource resourceType="PROJECT" workspacePath="/tiva-dfu-prog-linux"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.348275100;cdt.managedbuild.config.gnu.exe.release.348275100.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1438987394;cdt.managedbuild.tool.gnu.cpp.compiler.input.62237749">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.linuxtools.cdt.autotools.core.configuration.build.823937873;org.eclipse.linuxtools.cdt.autotools.core.configuration.build.823937873.;org.eclipse.linuxtools.cdt.autotools.core.toolchain.tool.gcc.674477273;cdt.managedbuild.tool.gnu.c.compiler.input.642826482">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1252281783;cdt.managedbuild.config.gnu.exe.debug.1252281783.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.2080819632;cdt.managedbuild.tool.gnu.cpp.compiler.input.537915097">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1252281783;cdt.managedbuild.config.gnu.exe.debug.1252281783.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.198704748;cdt.managedbuild.tool.gnu.c.compiler.input.1804401509">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.linuxtools.cdt.autotools.core.configuration.build.823937873;org.eclipse.linuxtools.cdt.autotools.core.configuration.build.823937873.;org.eclipse.linuxtools.cdt.autotools.core.toolchain.tool.gpp.2087191334;cdt.managedbuild.tool.gnu.cpp.compiler.input.1452806596">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.348275100;cdt.managedbuild.config.gnu.exe.release.348275100.;cdt.managedbuild.tool.gnu.c.compiler.exe.release.725909396;cdt.managedbuild.tool.gnu.c.compiler.input.974071409">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

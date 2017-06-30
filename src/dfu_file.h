@@ -5,6 +5,19 @@
 #include <stdint.h>
 
 struct dfu_file {
+
+	dfu_file()
+	: name(0),
+	  firmware(0),
+	  lmdfu_address(0),
+	  prefix_type(0),
+	  dwCRC(0),
+	  bcdDFU(0),
+	  idVendor(0),
+	  idProduct(0),
+	  bcdDevice(0),
+	  size{0, 0, 0}
+	{}
     /* File name */
     const char *name;
     /* Pointer to file loaded into memory */

@@ -6,6 +6,7 @@ AC_INIT([dfu-util],[0.9],[http://sourceforge.net/p/dfu-util/tickets/],,[http://d
 AC_CONFIG_AUX_DIR(m4)
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
 
 # Test for new silent rules and enable only if they are available
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -13,6 +14,8 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 # Checks for programs.
 AC_PROG_CXX
 # AC_PROG_CC
+
+AX_CXX_COMPILE_STDCXX_11
 
 # Checks for libraries.
 # On FreeBSD the libusb-1.0 is called libusb and resides in system location

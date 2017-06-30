@@ -43,12 +43,11 @@ int DFUProg::InitDFUMode()
 	if (!configSerialPort(fd))
 	{
 		close(fd);
-		printf("\n ERROR ! in config_port()");
+		printf("ERROR ! in config_port()\n");
 		return 1;
 	}
-	printf("\nDevice set to DFU mode\n");
-	sleep(3);
-	close(fd);
+	printf("Device switching to DFU mode\n");
+	return close(fd);
 }
 
 //
@@ -60,7 +59,7 @@ int DFUProg::openSerialPort()
 {
   int fd; /* File descriptor for the port */
 
-
+  std::cout << "Attempting to open handle to " << mPortName << std::endl;
   fd = open(mPortName.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
   if (fd == -1)
   {
@@ -68,7 +67,7 @@ int DFUProg::openSerialPort()
     * Could not open the port.
     */
 
-    perror("open_port: Unable to open /dev/ttyACM0 - Try \"sudo apt-get --purge remove modemmanager\"");
+    std::cerr << "open_port: Unable to open " << mPortName << " - Try \"sudo apt-get --purge remove modemmanager\"\n";
   }
   else
     fcntl(fd, F_SETFL, 0);
@@ -113,11 +112,11 @@ bool DFUProg::configSerialPort(int fd)
 	bool isSet = false;
 	if(tcsetattr(fd, TCSANOW, &options) != 0) /* Set the attributes to the termios structure*/
 	{
-		perror("\n ERROR ! in Setting attributes");
+		std::cerr << "ERROR ! in Setting attributes\n";
 	}
 	else
 	{
-		printf("\n BaudRate = 1200 \n  StopBits = 1 \n  Parity   = none");
+		std::cout << "Connected at:\n\tBaudRate = 1200\n\tStopBits = 1\n\tParity  = none\n";
 		isSet = true;
 	}
 	tcflush(fd, TCIFLUSH);   /* Discards old data in the rx buffer            */

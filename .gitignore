@@ -40,6 +40,8 @@ Makefile.in
 *.lo
 *.o
 *.obj
+.deps
+src/.deps
 
 # Precompiled Headers
 *.gch
