@@ -50,31 +50,31 @@
 /* #undef HAVE_WINDOWS_H */
 
 /* Name of package */
-#define PACKAGE "dfu-util"
+#define PACKAGE "tiva-dfu-util"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "http://sourceforge.net/p/dfu-util/tickets/"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "dfu-util"
+#define PACKAGE_NAME "tiva-dfu-util"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "dfu-util 0.9"
+#define PACKAGE_STRING "tiva-dfu-util 1.0.1"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "dfu-util"
+#define PACKAGE_TARNAME "tiva-dfu-util"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL "http://dfu-util.sourceforge.net"
+#define PACKAGE_URL "http://sourceforge.net/p/dfu-util/tickets/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.9"
+#define PACKAGE_VERSION "1.0.1"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.9"
+#define VERSION "1.0.1"
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */

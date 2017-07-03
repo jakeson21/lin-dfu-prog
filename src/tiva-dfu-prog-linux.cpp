@@ -1,10 +1,12 @@
 //============================================================================
 // Name        : tiva-dfu-prog-linux.cpp
 // Author      : Jacob Miller
-// Version     : 1.0.0
+// Version     : 1.0.1
 // Copyright   :
 //
-// See: https://github.com/xanthium-enterprises/Serial-Port-Programming-on-Linux/blob/master/USB2SERIAL_Read/Reciever%20(PC%20Side)/SerialPort_read.c
+// This utility is derived from "dfu-util" sources:
+// see http://dfu-util.sourceforge.net
+//
 //============================================================================
 #include <stdio.h>   /* Standard input/output definitions */
 #include <unistd.h>  /* UNIX standard function definitions */
@@ -20,8 +22,8 @@
 #include <thread>
 using namespace std;
 
-#include "DFUProg.h"
 #include "portable.h"
+#include "DFUProg.h"
 #include "dfu_file.h"
 #include "dfu_load.h"
 #include "dfu_util.h"
@@ -46,7 +48,7 @@ const char *match_serial_dfu = NULL;
 
 static void help(void)
 {
-	fprintf(stderr, "Usage: dfu-util [options] ...\n"
+	fprintf(stderr, "Usage: tiva-dfu-util [options] ...\n"
 		"  -h --help\t\t\tPrint this help message\n"
 		"  -V --version\t\t\tPrint the version number\n"
 		"  -v --verbose\t\t\tPrint verbose debug statements\n"
@@ -156,12 +158,19 @@ int main(int argc, char** argv) {
 	file.idVendor 	= 0x1cbe; match_vendor  = 0x1cbe;
 	file.idProduct 	= 0x00ff; match_product = 0x00ff;
 
+	DFU::DFUProg dfu_prog;
 	// Switch from Run mode to DFU mode
 	if (com_trigger)
 	{
-		DFU::DFUProg dfu_prog;
 		dfu_prog.setSerialPort(portName);
-		dfu_prog.InitDFUMode();
+		/*
+		 * Set the baud rate to 1200...
+		 */
+		if (dfu_prog.InitDFUMode(B1200) == EXIT_FAILURE)
+		{
+			std::exit(1);
+		}
+		std::cout << "Device Entering DFU mode" << std::endl;
 	}
 	else
 	{
@@ -229,36 +238,36 @@ int main(int argc, char** argv) {
 		throw std::exception();
 	}
 
-	printf("ID %04x:%04x\n", dfu_root->vendor, dfu_root->product);
+	printf("Device ID %04x:%04x\n", dfu_root->vendor, dfu_root->product);
 
-	printf("Run-time device DFU version %04x\n",
-	       libusb_le16_to_cpu(dfu_root->func_dfu.bcdDFUVersion));
+	if (verbose) { printf("Run-time device DFU version %04x\n",
+	       libusb_le16_to_cpu(dfu_root->func_dfu.bcdDFUVersion)); }
 
 	/* If a match vendor/product was specified, use that as the runtime
 	 * vendor/product, otherwise use the DFU mode vendor/product */
 	runtime_vendor = match_vendor < 0 ? dfu_root->vendor : match_vendor;
 	runtime_product = match_product < 0 ? dfu_root->product : match_product;
 
-	printf("Claiming USB DFU Interface...\n");
+	if (verbose) { printf("Claiming USB DFU Interface...\n"); }
 	ret = libusb_claim_interface(dfu_root->dev_handle, dfu_root->interface);
 	if (ret < 0) {
 		errx(EX_IOERR, "Cannot claim interface - %s", libusb_error_name(ret));
 	}
 
-	printf("Setting Alternate Setting #%d ...\n", dfu_root->altsetting);
+	if (verbose) { printf("Setting Alternate Setting #%d ...\n", dfu_root->altsetting); }
 	ret = libusb_set_interface_alt_setting(dfu_root->dev_handle, dfu_root->interface, dfu_root->altsetting);
 	if (ret < 0) {
 		errx(EX_IOERR, "Cannot set alternate interface: %s", libusb_error_name(ret));
 	}
 
 status_again:
-	printf("Determining device status: ");
+	if (verbose) { printf("Determining device status: "); }
 	ret = dfu_get_status(dfu_root, &status );
 	if (ret < 0) {
 		errx(EX_IOERR, "error get_status: %s", libusb_error_name(ret));
 	}
-	printf("state = %s, status = %d\n",
-	       dfu_state_to_string(status.bState), status.bStatus);
+	if (verbose) { printf("state = %s, status = %d\n",
+	       dfu_state_to_string(status.bState), status.bStatus); }
 
 	std::this_thread::sleep_for(chrono::milliseconds(status.bwPollTimeout));
 
@@ -268,7 +277,7 @@ status_again:
 		errx(EX_IOERR, "Device still in Runtime Mode!");
 		break;
 	case DFU_STATE_dfuERROR:
-		printf("dfuERROR, clearing status\n");
+		if (verbose) { printf("dfuERROR, clearing status\n"); }
 		if (dfu_clear_status(dfu_root->dev_handle, dfu_root->interface) < 0) {
 			errx(EX_IOERR, "error clear_status");
 		}
@@ -283,7 +292,7 @@ status_again:
 		goto status_again;
 		break;
 	case DFU_STATE_dfuIDLE:
-		printf("dfuIDLE, continuing\n");
+		if (verbose) { printf("dfuIDLE, continuing\n"); }
 		break;
 	default:
 		break;
@@ -303,16 +312,14 @@ status_again:
 		std::this_thread::sleep_for(chrono::milliseconds(status.bwPollTimeout));
 	}
 
-	printf("DFU mode device DFU version %04x\n",
-	       libusb_le16_to_cpu(dfu_root->func_dfu.bcdDFUVersion));
+	if (verbose) { printf("DFU mode device DFU version %04x\n", libusb_le16_to_cpu(dfu_root->func_dfu.bcdDFUVersion)); }
 
 	/* If not overridden by the user */
 	if (!transfer_size) {
 		transfer_size = libusb_le16_to_cpu(
 		    dfu_root->func_dfu.wTransferSize);
 		if (transfer_size) {
-			printf("Device returned transfer size %i\n",
-			       transfer_size);
+			if (verbose) { printf("Device returned transfer size %i\n", transfer_size); }
 		} else {
 			errx(EX_IOERR, "Transfer size must be specified");
 		}
@@ -346,13 +353,14 @@ status_again:
 					dfu_root->vendor, dfu_root->product);
 			}
 
+			//
 			// Apply Tiva wrapper
-
 			// Create dfu wrapped filename based on input file
 			found = firmwareFileName.find_last_of(".");            // find extension seperator
 			outPath = firmwareFileName.substr(0, found+1) + "dfu";   // change extension to 'dfu'
+
 			// dfuwrap
-			std::cout << "Wrapping " << firmwareFileName << " in DFU headers" << std::endl;
+			if (verbose) { std::cout << "Wrapping " << firmwareFileName << " in DFU headers" << std::endl; }
 			if (bin2dfu.applyWrapper(firmwareFileName, outPath))
 			{
 				std::cout << "Error encountered during DFU wrap" << std::endl;
@@ -382,7 +390,6 @@ status_again:
 				// Download new file to device
 				if (dfuload_do_dnload(dfu_root, transfer_size, &file) < 0)
 					break;
-					//std::exit(1);
 			}
 			break;
 
@@ -395,19 +402,29 @@ status_again:
 			break;
 	}
 
-	printf("Resetting USB to switch back to runtime mode\n");
-	ret = tiva_reset_device(dfu_root);
+	printf("Resetting device\n");
+	dfu_prog.tiva_reset_device(dfu_root);
+	if (verbose) { printf("Releasing interface\n"); }
+	ret = libusb_release_interface(dfu_root->dev_handle, dfu_root->interface);
 	if (ret < 0 && ret != LIBUSB_ERROR_NOT_FOUND) {
 		errx(EX_IOERR, "error resetting after download: %s", libusb_error_name(ret));
 	}
+	if (verbose) { printf("Interface released\n"); }
 
-	libusb_release_interface(dfu_root->dev_handle, dfu_root->interface);
 	libusb_close(dfu_root->dev_handle);
 	dfu_root->dev_handle = NULL;
 	libusb_exit(ctx);
 
 	/* keeping handles open might prevent re-enumeration */
 	disconnect_devices();
+
+//	if (com_trigger)
+//	{
+//		std::this_thread::sleep_for(chrono::milliseconds(2000));
+//		DFU::DFUProg dfu_prog;
+//		dfu_prog.setSerialPort(portName);
+//		dfu_prog.InitDFUMode(B9600);
+//	}
 
 	return 0;
 }

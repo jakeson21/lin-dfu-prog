@@ -31,6 +31,9 @@
 #include <errno.h>
 #include <string.h>
 
+#include <chrono>
+#include <thread>
+
 #include <libusb-1.0/libusb.h>
 
 #include "portable.h"
@@ -67,7 +70,7 @@ int dfuload_do_upload(struct dfu_if *dif, int xfer_size,
 		total_bytes += rc;
 
 		if (total_bytes < 0)
-			errx(EX_SOFTWARE, "\nReceived too many bytes (wraparound)");
+			errx(EX_SOFTWARE, "\nReceived too many bytes (wrap around)");
 
 		if (rc < xfer_size) {
 			/* last block, return */
@@ -100,7 +103,7 @@ int dfuload_do_dnload(struct dfu_if *dif, int xfer_size, struct dfu_file *file)
 	struct dfu_status dst;
 	int ret;
 
-	printf("Copying data from PC to DFU device\n");
+	if (verbose) { printf("Copying data from PC to DFU device\n"); }
 
 	buf = file->firmware;
 	expected_size = file->size.total - file->size.suffix;
@@ -138,7 +141,7 @@ int dfuload_do_dnload(struct dfu_if *dif, int xfer_size, struct dfu_file *file)
 				break;
 
 			/* Wait while device executes flashing */
-			milli_sleep(dst.bwPollTimeout);
+			std::this_thread::sleep_for(std::chrono::milliseconds(dst.bwPollTimeout));
 
 		} while (1);
 		if (dst.bStatus != DFU_STATUS_OK) {
@@ -172,11 +175,11 @@ get_status:
 		warnx("unable to read DFU status after completion");
 		goto out;
 	}
-	printf("state(%u) = %s, status(%u) = %s\n", dst.bState,
+	if (verbose) { printf("state(%u) = %s, status(%u) = %s\n", dst.bState,
 		dfu_state_to_string(dst.bState), dst.bStatus,
-		dfu_status_to_string(dst.bStatus));
+		dfu_status_to_string(dst.bStatus)); }
 
-	milli_sleep(dst.bwPollTimeout);
+	std::this_thread::sleep_for(std::chrono::milliseconds(dst.bwPollTimeout));
 
 	/* FIXME: deal correctly with ManifestationTolerant=0 / WillDetach bits */
 	switch (dst.bState) {
@@ -184,7 +187,7 @@ get_status:
 	case DFU_STATE_dfuMANIFEST:
 		/* some devices (e.g. TAS1020b) need some time before we
 		 * can obtain the status */
-		milli_sleep(1000);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		goto get_status;
 		break;
 	case DFU_STATE_dfuIDLE:

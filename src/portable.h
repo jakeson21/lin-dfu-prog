@@ -1,14 +1,13 @@
-
 #ifndef PORTABLE_H
 #define PORTABLE_H
 
 #ifdef HAVE_CONFIG_H
-# include "config.h"
+# include "../config.h"
 #else
-# define PACKAGE "dfu-util"
-# define PACKAGE_VERSION "0.9-msvc"
-# define PACKAGE_STRING "dfu-util 0.9-msvc"
-# define PACKAGE_BUGREPORT "http://sourceforge.net/p/dfu-util/tickets/"
+# define PACKAGE "tiva-dfu-util"
+# define PACKAGE_VERSION "1.0.1-linux"
+# define PACKAGE_STRING "tiva-dfu-util 1.0.1-linux"
+# define PACKAGE_BUGREPORT "https://github.com/jakeson21/tiva-dfu-prog-linux"
 # include <io.h>
 #endif /* HAVE_CONFIG_H */
 

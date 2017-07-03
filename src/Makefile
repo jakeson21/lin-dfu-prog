@@ -70,10 +70,10 @@ am__make_running_with_option = \
   test $$has_opt = yes
 am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
-pkgdatadir = $(datadir)/dfu-util
-pkgincludedir = $(includedir)/dfu-util
-pkglibdir = $(libdir)/dfu-util
-pkglibexecdir = $(libexecdir)/dfu-util
+pkgdatadir = $(datadir)/tiva-dfu-util
+pkgincludedir = $(includedir)/tiva-dfu-util
+pkglibdir = $(libdir)/tiva-dfu-util
+pkglibexecdir = $(libexecdir)/tiva-dfu-util
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -86,7 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = tiva_dfu_prog$(EXEEXT)
+bin_PROGRAMS = tiva-dfu-prog$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
@@ -104,7 +104,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_tiva_dfu_prog_OBJECTS = tiva-dfu-prog-linux.$(OBJEXT) \
 	DFUProg.$(OBJEXT) dfu_load.$(OBJEXT) dfu_util.$(OBJEXT) \
 	dfu.$(OBJEXT) dfu_file.$(OBJEXT) quirks.$(OBJEXT) \
-	lmdfu.$(OBJEXT) bin2dfuwrap.$(OBJEXT)
+	bin2dfuwrap.$(OBJEXT)
 tiva_dfu_prog_OBJECTS = $(am_tiva_dfu_prog_OBJECTS)
 tiva_dfu_prog_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -213,13 +213,13 @@ LTLIBOBJS =
 MAKEINFO = ${SHELL} /home/fuguru/git/tiva-dfu-prog-linux/m4/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
-PACKAGE = dfu-util
+PACKAGE = tiva-dfu-util
 PACKAGE_BUGREPORT = http://sourceforge.net/p/dfu-util/tickets/
-PACKAGE_NAME = dfu-util
-PACKAGE_STRING = dfu-util 0.9
-PACKAGE_TARNAME = dfu-util
-PACKAGE_URL = http://dfu-util.sourceforge.net
-PACKAGE_VERSION = 0.9
+PACKAGE_NAME = tiva-dfu-util
+PACKAGE_STRING = tiva-dfu-util 1.0.1
+PACKAGE_TARNAME = tiva-dfu-util
+PACKAGE_URL = http://sourceforge.net/p/dfu-util/tickets/
+PACKAGE_VERSION = 1.0.1
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_LIBDIR = 
@@ -229,7 +229,7 @@ SHELL = /bin/bash
 STRIP = 
 USB_CFLAGS = -I/usr/include/libusb-1.0
 USB_LIBS = -lusb-1.0
-VERSION = 0.9
+VERSION = 1.0.1
 abs_builddir = /home/fuguru/git/tiva-dfu-prog-linux/src
 abs_srcdir = /home/fuguru/git/tiva-dfu-prog-linux/src
 abs_top_builddir = /home/fuguru/git/tiva-dfu-prog-linux
@@ -291,8 +291,6 @@ tiva_dfu_prog_SOURCES = tiva-dfu-prog-linux.cpp \
 	dfu_file.h \
 	quirks.cpp \
 	quirks.h \
-	lmdfu.cpp \
-	lmdfu.h \
 	bin2dfuwrap.cpp \
 	bin2dfuwrap.h
 
@@ -372,8 +370,8 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
-tiva_dfu_prog$(EXEEXT): $(tiva_dfu_prog_OBJECTS) $(tiva_dfu_prog_DEPENDENCIES) $(EXTRA_tiva_dfu_prog_DEPENDENCIES) 
-	@rm -f tiva_dfu_prog$(EXEEXT)
+tiva-dfu-prog$(EXEEXT): $(tiva_dfu_prog_OBJECTS) $(tiva_dfu_prog_DEPENDENCIES) $(EXTRA_tiva_dfu_prog_DEPENDENCIES) 
+	@rm -f tiva-dfu-prog$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(tiva_dfu_prog_OBJECTS) $(tiva_dfu_prog_LDADD) $(LIBS)
 
 mostlyclean-compile:
@@ -388,7 +386,6 @@ include ./$(DEPDIR)/dfu.Po
 include ./$(DEPDIR)/dfu_file.Po
 include ./$(DEPDIR)/dfu_load.Po
 include ./$(DEPDIR)/dfu_util.Po
-include ./$(DEPDIR)/lmdfu.Po
 include ./$(DEPDIR)/quirks.Po
 include ./$(DEPDIR)/tiva-dfu-prog-linux.Po
 

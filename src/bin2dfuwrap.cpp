@@ -779,7 +779,7 @@ Bin2DfuWrapper::WriteOutputFile(const std::string& pszFile, unsigned char *pcDat
     //
     // Write the supplied data to the file.
     //
-    VERBOSEPRINT("Writing %uld (0x%ulx) bytes to output file.\n", ulLength,
+    VERBOSEPRINT("Writing %d (0x%X) bytes to output file.\n", ulLength,
                  ulLength);
     ulWritten = fwrite(pcData, 1, ulLength, fh);
 

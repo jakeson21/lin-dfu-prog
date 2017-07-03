@@ -1,6 +1,6 @@
 AM_CFLAGS = -Wall -Wextra
 
-bin_PROGRAMS = tiva_dfu_prog
+bin_PROGRAMS = tiva-dfu-prog
 tiva_dfu_prog_SOURCES = tiva-dfu-prog-linux.cpp \
 	lmdfuprot.h \
     DFUProg.cpp \
@@ -17,8 +17,6 @@ tiva_dfu_prog_SOURCES = tiva-dfu-prog-linux.cpp \
 	dfu_file.h \
 	quirks.cpp \
 	quirks.h \
-	lmdfu.cpp \
-	lmdfu.h \
 	bin2dfuwrap.cpp \
 	bin2dfuwrap.h
 	

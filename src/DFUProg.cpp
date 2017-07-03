@@ -11,8 +11,10 @@
 #include <fcntl.h>   /* File control definitions */
 #include <errno.h>   /* Error number definitions */
 #include <termios.h> /* POSIX terminal control definitions */
+
 #include <string>  /* String function definitions */
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 #include <libusb-1.0/libusb.h>
@@ -24,7 +26,8 @@ namespace DFU
 DFUProg::DFUProg()
 {
 	// TODO Auto-generated constructor stub
-
+	baudToStringMap[B1200] = "1200";
+	baudToStringMap[B9600] = "9600";
 }
 
 DFUProg::~DFUProg()
@@ -32,22 +35,19 @@ DFUProg::~DFUProg()
 	// TODO Auto-generated destructor stub
 }
 
-int DFUProg::InitDFUMode()
+int DFUProg::InitDFUMode(int inBaudRate)
 {
-	int fd = openSerialPort();
-	if (fd==-1)
-	{
-		return 1;
-	}
+	int fd;
+	if (openSerialPort(fd) != 0) { return EXIT_FAILURE; }
 
-	if (!configSerialPort(fd))
+	if (configSerialPort(fd, inBaudRate) != 0)
 	{
 		close(fd);
-		printf("ERROR ! in config_port()\n");
-		return 1;
+		std::cerr << "could not configure COM port" << std::endl;
+		return EXIT_FAILURE;
 	}
-	printf("Device switching to DFU mode\n");
-	return close(fd);
+	close(fd);
+	return EXIT_SUCCESS;
 }
 
 //
@@ -55,41 +55,45 @@ int DFUProg::InitDFUMode()
 //
 // Returns the file descriptor on success or -1 on error.
 //
-int DFUProg::openSerialPort()
+int DFUProg::openSerialPort(int& ioFileHandle)
 {
-  int fd; /* File descriptor for the port */
-
   std::cout << "Attempting to open handle to " << mPortName << std::endl;
-  fd = open(mPortName.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
-  if (fd == -1)
+  if ((ioFileHandle = open(mPortName.c_str(), O_RDWR | O_NOCTTY | O_NDELAY)) < 0)
   {
    /*
     * Could not open the port.
     */
-
-    std::cerr << "open_port: Unable to open " << mPortName << " - Try \"sudo apt-get --purge remove modemmanager\"\n";
+    std::cerr << "Unable to open " << mPortName << " - Try \"sudo apt-get --purge remove modemmanager\"\n";
+    return EXIT_FAILURE;
   }
-  else
-    fcntl(fd, F_SETFL, 0);
+  fcntl(ioFileHandle, F_SETFL, 0);
 
-  return (fd);
+  return EXIT_SUCCESS;
 }
 
-bool DFUProg::configSerialPort(int fd)
+int DFUProg::configSerialPort(int fd, int inBaudRate)
 {
 	struct termios options;
 
 	/*
 	 * Get the current options for the port...
 	 */
+	if (tcgetattr(fd, &options) < 0)
+	{
+		std::cerr << "stdin error" << std::endl;
+		return EXIT_FAILURE;
+	}
 
-	tcgetattr(fd, &options);
-
-	/*
-	 * Set the baud rates to 1200...
-	 */
-	cfsetispeed(&options, B1200);
-	cfsetospeed(&options, B1200);
+	if (cfsetispeed(&options, inBaudRate) < 0)
+	{
+		std::cerr << "invalid baud rate" << std::endl;
+		return EXIT_FAILURE;
+	}
+	if (cfsetospeed(&options, inBaudRate) < 0)
+	{
+		std::cerr << "invalid baud rate" << std::endl;
+		return EXIT_FAILURE;
+	}
 
 	/*
 	 * Enable the receiver and set local mode...
@@ -109,19 +113,15 @@ bool DFUProg::configSerialPort(int fd)
 	/*
 	 * Set the new options for the port...
 	 */
-	bool isSet = false;
 	if(tcsetattr(fd, TCSANOW, &options) != 0) /* Set the attributes to the termios structure*/
 	{
 		std::cerr << "ERROR ! in Setting attributes\n";
+		return EXIT_FAILURE;
 	}
-	else
-	{
-		std::cout << "Connected at:\n\tBaudRate = 1200\n\tStopBits = 1\n\tParity  = none\n";
-		isSet = true;
-	}
+	std::cout << "Connected at: " << baudToStringMap.at(inBaudRate) << "-none-1\n";
 	tcflush(fd, TCIFLUSH);   /* Discards old data in the rx buffer            */
 
-	return isSet;
+	return EXIT_SUCCESS;
 }
 
 int DFUProg::tiva_reset_device(struct dfu_if *dif)
@@ -137,6 +137,7 @@ int DFUProg::tiva_reset_device(struct dfu_if *dif)
 		  /* Data          */ (unsigned char*) &sProt,
 		  /* wLength       */ sizeof(tLMDFUQueryTivaProtocol),
 							  5000 );
+
 	if (status == sizeof(tLMDFUQueryTivaProtocol))
 	{
 		// Since we got back the expected value, assume this device supports Tiva extensions
@@ -150,17 +151,9 @@ int DFUProg::tiva_reset_device(struct dfu_if *dif)
 			  /* Data          */ (unsigned char*) &sHeader,
 			  /* wLength       */ sizeof(tDFUDownloadHeader),
 								  5000 );
-
-		printf("Releasing interface\n");
-		if((status = libusb_release_interface(dif->dev_handle, dif->interface)) != 0)
-		{
-			printf("Error occured releasing interface [%d]\n", status);
-			return status;
-		}
-		printf("Interface released\n");
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 } /* namespace DFU */

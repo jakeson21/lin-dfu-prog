@@ -33,17 +33,6 @@ int tiva_reset_device(struct dfu_if *dif)
 			  /* Data          */ (unsigned char*) &sHeader,
 			  /* wLength       */ sizeof(tDFUDownloadHeader),
 								  5000 );
-
-		printf("Releasing interface\n");
-		if((status = libusb_release_interface(dif->dev_handle, dif->interface)) != 0)
-		{
-			printf("Error occured releasing interface [%d]\n", status);
-			return status;
-		}
-		else
-		{
-			printf("Interface released\n");
-		}
 	}
 
 	return 0;

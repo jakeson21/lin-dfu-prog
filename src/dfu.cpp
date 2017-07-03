@@ -24,6 +24,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <chrono>
+#include <thread>
+
 #include <libusb-1.0/libusb.h>
 
 #include "portable.h"
@@ -352,6 +355,6 @@ int dfu_abort_to_idle(struct dfu_if *dif)
 		errx(EX_IOERR, "Failed to enter idle state on abort");
 		exit(1);
 	}
-	milli_sleep(dst.bwPollTimeout);
+	std::this_thread::sleep_for(std::chrono::milliseconds(dst.bwPollTimeout));
 	return ret;
 }

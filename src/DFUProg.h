@@ -10,6 +10,7 @@
 
 #include <string>  /* String function definitions */
 #include <libusb-1.0/libusb.h>
+#include <map>
 
 #include "dfu.h"
 
@@ -23,16 +24,18 @@ public:
 	virtual ~DFUProg();
 
 	void setSerialPort(const std::string& inPortName) { mPortName = inPortName; }
-	int InitDFUMode();
+	int InitDFUMode(int inBaudRate);
 
 	int tiva_reset_device(struct dfu_if *dif);
 
 private:
-	bool configSerialPort(int fd);
-	int openSerialPort();
+	int configSerialPort(int fd, int inBaudRate);
+	int openSerialPort(int& ioFileHandle);
 
 	std::string mPortName;
+	std::map<int, std::string>  baudToStringMap;
 };
+
 
 } /* namespace DFU */
 
