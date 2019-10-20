@@ -1,0 +1,8 @@
+version: '3'
+services:
+  tiva-dfu-prog:
+    build: .
+    ports:
+      - "5900:5900"
+      - "6080:80"
+      

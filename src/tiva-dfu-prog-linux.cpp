@@ -28,7 +28,6 @@ using namespace std;
 #include "dfu_load.h"
 #include "dfu_util.h"
 #include "dfu.h"
-#include "lmdfu.h"
 #include "bin2dfuwrap.h"
 
 int verbose = 0;
