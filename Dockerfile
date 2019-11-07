@@ -15,6 +15,8 @@ RUN rm -rf bin
 
 RUN apt update && apt -y install \ 
     autoconf \
+    automake \
+    autotools-dev \
     build-essential \
     curl \
     libtool \

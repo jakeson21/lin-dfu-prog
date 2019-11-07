@@ -7,8 +7,9 @@ compiler:
   - gcc
 
 install:
-  - autoconf
   - build-essential
+  - autoconf
+  - automake
   - curl
   - libtool
   - libusb-dev
@@ -22,7 +23,7 @@ script:
   - aclocal
   - automake --add-missing --foreign
   - ./configure
-  - make
+  - make -j
   - src/tiva-dfu-prog
 
 notifications:
