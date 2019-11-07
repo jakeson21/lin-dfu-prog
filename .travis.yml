@@ -21,6 +21,7 @@ script:
   - ./configure
   - make -j
   - src/tiva-dfu-prog
+  - if [ $? -eq 1 ] ; then echo "Good"; else echo "Bad"; fi
 
 notifications:
   email: false
