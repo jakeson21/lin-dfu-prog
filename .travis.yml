@@ -1,0 +1,29 @@
+---
+language: c++
+sudo: required
+dist: bionic
+
+compiler:
+  - gcc
+
+install:
+  - autoconf
+  - build-essential
+  - curl
+  - libtool
+  - libusb-dev
+  - libusb-1.0
+  - libglib2.0-dev
+  - pkg-config
+
+script:
+  - autoreconf -fis
+  - autoconf
+  - aclocal
+  - automake --add-missing --foreign
+  - ./configure
+  - make
+  - src/tiva-dfu-prog
+
+notifications:
+  email: false

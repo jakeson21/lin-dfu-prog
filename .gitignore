@@ -1,6 +1,6 @@
 # http://www.gnu.org/software/automake
 
-Makefile.in
+Makefile*
 /ar-lib
 /mdate-sh
 /py-compile
@@ -23,6 +23,9 @@ Makefile.in
 /install-sh
 /missing
 /stamp-h1
+/*.log
+/config.status
+/m4
 
 # https://www.gnu.org/software/libtool/
 
@@ -68,7 +71,7 @@ src/.deps
 *.app
 
 .metadata
-# bin/
+bin/
 tmp/
 *.tmp
 *.bak
