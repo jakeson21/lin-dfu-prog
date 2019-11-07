@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jakeson21/tiva-dfu-prog-linux)](https://travis-ci.org/jakeson21/tiva-dfu-prog-linux)
+
 # lin-dfu-prog
 
 Custom dfu-programmer for Linux for Arduino-Tiva
