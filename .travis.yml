@@ -1,13 +1,10 @@
 ---
-language: c++
+language: cpp
+compiler: gcc
 sudo: required
 dist: bionic
 
-compiler:
-  - gcc
-
 install:
-  - build-essential
   - autoconf
   - automake
   - curl
