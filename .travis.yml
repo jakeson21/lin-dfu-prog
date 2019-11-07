@@ -7,7 +7,6 @@ dist: bionic
 install:
   - autoconf
   - automake
-  - curl
   - libtool
   - libusb-dev
   - libusb-1.0
