@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jakeson21/tiva-dfu-prog-linux)](https://travis-ci.org/jakeson21/tiva-dfu-prog-linux)
+[![Build Status](https://travis-ci.org/jakeson21/tiva-dfu-prog-linux.svg?branch=master)](https://travis-ci.org/jakeson21/tiva-dfu-prog-linux)
 
 # lin-dfu-prog
 
