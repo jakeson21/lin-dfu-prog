@@ -6,12 +6,9 @@ LABEL maintainer="Jacob Miller (jake_son@yahoo.com)"
 
 # RUN apt-get update && apt-get install -y -q \
 #     #python3.7 \
-# WORKDIR /root/tiva-dfu-prog
-RUN mkdir -p /home/fuguru/git/tiva-dfu-prog-linux
-COPY . /home/fuguru/git/tiva-dfu-prog-linux
-WORKDIR /home/fuguru/git/tiva-dfu-prog-linux
-
-RUN rm -rf bin
+WORKDIR /root/tiva-dfu-prog-linux
+COPY . .
+# RUN rm -rf bin
 
 RUN apt update && apt -y install \ 
     autoconf \
